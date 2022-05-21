@@ -1,38 +1,12 @@
 ---
-title: Hello World
+title: '往后一旬，请多指教！'
+date: 2019-10-06 20:03:18
+categories: [日常]
+published: true
+hideInList: false
+feature: /post-images/hello-world.jpeg
+isTop: false
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
-
-## Quick Start
-
-### Create a new post
-
-``` bash
-$ hexo new "My New Post"
-```
-
-More info: [Writing](https://hexo.io/docs/writing.html)
-
-### Run server
-
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+  这些年陆陆续续整了几十个域名，七八个空间，四五台主机，两三个博客系统，很遗憾没一个能长久。到了高三，巨大学习压力使我不得不放弃。到如今高考结束，长大成年了，却发现自己没有了当年折腾的热情。直到某天逛到一个Github托管网站的贴，下定决心，再次出发。
+  Github是个好东西，原谅我玩了这么久才意识到，把网站托管在这，永久运行，这是以前穷学生的我不敢想象的。域名当然也可以用免费的一二级域名，诸如.tk、.eu.org，但始终不是属于自己，被人拿捏的感觉始终是难受的。考虑再三，还是入了一个，正好阿里云搞优惠，170元10年的.fun域名，足够长也足够划算。
+  往后10年，我想在此写写学习上的心得、生活中的趣事，不为谁而写作，只希望10年后的我能回看这一旬青春，一路成长。

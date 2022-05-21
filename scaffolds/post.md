@@ -8,5 +8,7 @@ categories:
 - [分类1,子类1]
 - [分类2]
 comments: true
-permalink:
+permalink: url/
 ---
+摘要？
+<!--more-->
