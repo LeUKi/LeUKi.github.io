@@ -35,7 +35,7 @@ jobs:
         REPO: github.com/LeUKi/LeUKi.github.io
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        mkdir TEMP && mv public TEMP/docs && cd TEMP && git init && git add .
+        mkdir TEMP && mv root/* TEMP && mv public TEMP/docs && cd TEMP && git init && git add .
         git config --global user.name $GIT_NAME
         git config --global user.email $GIT_EMAIL
         git commit -m "Site deployed by GitHub Actions"
