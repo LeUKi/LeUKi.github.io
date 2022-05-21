@@ -1,0 +1,1 @@
+hexo.extend.injector.register('body_end', '<script defer src="https://viewer-catch.herokuapp.com/client.js"></script>', 'default');

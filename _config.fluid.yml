@@ -424,19 +424,17 @@ footer:
   # 页脚第一行文字的 HTML，建议保留 Fluid 的链接，用于向更多人推广本主题
   # HTML of the first line of the footer, it is recommended to keep the Fluid link to promote this theme to more people
   content: '
-    <div>
       © 2019-2022 <strong>Lafish</strong>,<br>Powered by Hexo x Fluid x GitHub Pages. <br>
       <a href="https://www.foreverblog.cn/" target="_blank" one-link-mark="yes"> <img src="https://img.foreverblog.cn/logo_en_default.png" alt="" style="width:auto;height:16px;"> </a>
       <a href="https://icp.gov.moe" class="foota" target="_blank" one-link-mark="yes">萌ICP备 </a><a href="https://icp.gov.moe/?keyword=2020001024" target="_blank" one-link-mark="yes"> 2020001024号</a>
       <br>
-      <style>.VCC_before{visibility: hidden;}</style>
+      <style>.VCC_before{visibility: hidden;}.gt-container .gt-comment-content{background-color:#bdbdbd21!important}</style>
       <span class="VCC VCC_before">
+        <a href="https://github.com/LeUKi/viewer-catch" class="foota" target="_blank" one-link-mark="yes">viewer-catch </a>
         第
         <span class="VCC_pv_sum"> ? </span>
-        次访问 Counted by <a href="https://github.com/LeUKi/viewer-catch" class="foota" target="_blank" one-link-mark="yes">viewer-catch</a>.
+        次访问
       </span>
-    </div>
-    <script defer src="https://viewer-catch.herokuapp.com/client.js"/>
   '
 
   # 展示网站的 PV、UV 统计数
