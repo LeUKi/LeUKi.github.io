@@ -704,11 +704,6 @@
   "resolved" "https://registry.npmmirror.com/hexo-theme-fluid/-/hexo-theme-fluid-1.9.0.tgz"
   "version" "1.9.0"
 
-"hexo-theme-landscape@^0.0.3":
-  "integrity" "sha512-b0Di+TUVs4ESrNX4ULEh9uQmADpO6kr10rIJ2OGZM8suNQNFKdxn+vJUjnLfKkCPJAfVmS7/S83KCNYe4tpoNw=="
-  "resolved" "https://registry.npmmirror.com/hexo-theme-landscape/-/hexo-theme-landscape-0.0.3.tgz"
-  "version" "0.0.3"
-
 "hexo-util@^2.0.0", "hexo-util@^2.5.0", "hexo-util@^2.6.1":
   "integrity" "sha512-xj1jUrId2qTe8L/tRizWWRl+j7X1Zzh5rCVtffboOU0p/EfbPomxIxDvntTHT3fcqgvLHsncqJF9V5j7+buOqA=="
   "resolved" "https://registry.npmmirror.com/hexo-util/-/hexo-util-2.6.1.tgz"
