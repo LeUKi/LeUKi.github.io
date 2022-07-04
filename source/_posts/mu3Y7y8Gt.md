@@ -13,9 +13,9 @@ isTop: false
 无奈钱包瘪瘪，DW1830和DW1560对于目前学生的我实在太过昂贵。直到某天，在闲鱼上让我刷到了这“物美价廉”玩意。竟然只要1/4的价钱，就能体验到msata免驱的WiFi加蓝牙。
 到货装上后WiFi能免驱显示，但蓝牙却没反应。远景上也有人发过类似的帖子，顺着帖子找到了小兵大佬在19年8月份发的博客：[DW1820A...插入的正确姿势](https://blog.daliansky.net/DW1820A_BCM94350ZAE-driver-inserts-the-correct-posture.html)
 来回折腾了几次，稳定版2.2.10文件和10.14测试版2.5.1文件在macOS1.14.6中只支持airdrop和handoff，并不能连接耳机和触控板等外设。只有10.15测试版2.5.1能近完美驱动这张网卡。
-![](https://lafish.fun/post-images/1583073715577.png)
-![](https://lafish.fun/post-images/1583073720233.png)
-![](https://lafish.fun/post-images/1583073724880.png)
+![](../post-images/1583073715577.png)
+![](../post-images/1583073720233.png)
+![](../post-images/1583073724880.png)
 这张廉价网卡也是有缺点的，WiFi蓝牙共用2.4G会导致蓝牙不稳定，也不能连接5GWiFi的信号，虽然还能折腾下，但能用就行，觉得再弄下去没完没了。
 记录几个还没有试过的方法：
 - 从Windows热重启到macOS

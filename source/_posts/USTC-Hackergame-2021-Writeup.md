@@ -27,7 +27,7 @@ isTop: false
 >
 > “这还不简单！点击下面的链接就行”
 
-![题目](https://lafish.fun/post-images/1635577589169.png)
+![题目](../post-images/1635577589169.png)
 
 题面来看着实有趣，下面是助力的规则。
 
@@ -39,20 +39,20 @@ isTop: false
 >
 > 4. 每个用户只能够助力一次。为了建设世界一流大砍刀平台，活动要求位于同一 /8 网段的用户将会被视为同一个用户。（比如 IP 地址为 202.38.64.1 和 202.39.64.1 将被视为同一用户。）达到助力次数上线后，将无法再帮助好友助力。我们使用**前后端方式**检查用户的 IP 。
 
-![手动助力](https://lafish.fun/post-images/1635577645433.png)
+![手动助力](../post-images/1635577645433.png)
 
 试着给自己手动助力一下，加了0.0038836个flag，又仔细看了下题目，同一 /8 网段会被视为同一用户，意味着你另外要找全世界127个不同的网段的人帮你，找代理池是个好办法但作为白嫖党当然是不可能的事。
 
-![助力失败](https://lafish.fun/post-images/1635577690422.png)
+![助力失败](../post-images/1635577690422.png)
 
 然后打开了助力页面，看了下请求头，POST地址是助力链接，携带了一个表单，这个ip是从第三方获取到的。手动改一下POST试试。
 
-![F12](https://lafish.fun/post-images/1635577715303.png)
+![F12](../post-images/1635577715303.png)
 
-![ops](https://lafish.fun/post-images/1635577739318.png)
+![ops](../post-images/1635577739318.png)
 很好，还真是前后端检查ip。找了一下还真有伪造ip地址请求的头参数：X-Forwarded-For，然后写了个小脚本。
 
-![nice](https://lafish.fun/post-images/1635577778509.png)
+![nice](../post-images/1635577778509.png)
 
 ```javascript
 var request = require('request');
@@ -92,7 +92,7 @@ setInterval(function () {
 >
 > 于是你开始研究起来这个二维码。
 
-![qrbefore](https://lafish.fun/post-images/1635578017018.bmp)
+![qrbefore](../post-images/1635578017018.bmp)
 
 仔细数了下像素格子，二维码小格边长11像素，马赛克格子边长23像素，这意味着一个马赛克下面一定会完全或部分涵盖9个二维码小格，马赛克色值是所有23X23=529个像素色值的均值并**向下取整**。
 
@@ -105,13 +105,13 @@ sudo npm i -g qrfix #全局安装
 qrfix 1 2 30 40 50 #前两位是第一区域的像素宽高 从第三位开始依次往右填入马赛克色值
 ```
 
-![qrfinal](https://lafish.fun/post-images/1635578155428.png)
+![qrfinal](../post-images/1635578155428.png)
 
 遗憾的是，直到最后我们还是没能解出来，因为区域区域的相同会造成多组合产生，时间不够导致不难尝试所有可能的组合。如果控制算法做好，能直接生成所有组合的图像，这题不难。
 
 # 最后
 
-![final score](https://lafish.fun/post-images/1635577508835.png)
+![final score](../post-images/1635577508835.png)
 
 1400分，排名240，不错，第一次见识到了差距。
 

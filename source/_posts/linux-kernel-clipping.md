@@ -77,7 +77,7 @@ make zImage
 
 这是应该是证书出了问题，编辑源码根目录下的 `.config` 文件，检索 `.pem`，将两行代码中的值删除即可。
 
-![.config检索.pem字段](https://lafish.fun/post-images/1634909750962.png)
+![.config检索.pem字段](../post-images/1634909750962.png)
 
 ```
 #原
@@ -113,13 +113,13 @@ make zImage -j12 #后面的数字代表CPU核心数
 
 看这喂饱的CPU，针不戳。大概7分钟就生成好了，如果不加参数可能是12倍之多了。
 
-![喂饱的CPU](https://lafish.fun/post-images/1634909862236.png)
+![喂饱的CPU](../post-images/1634909862236.png)
 
-![镜像生成完毕](https://lafish.fun/post-images/1634909823235.png)
+![镜像生成完毕](../post-images/1634909823235.png)
 
 生成镜像的路径在 `arch/arm/boot/`，路径与文件都与师兄师姐们的笔记不一样，应该是代码版本不同导致的，`zimage` 是 `image` 压缩后的文件，即便按照默认配置生成，这也是小到出乎我意料。
 
-![生成的文件](https://lafish.fun/post-images/1634909883141.png)
+![生成的文件](../post-images/1634909883141.png)
 
 
 # 总结与问题

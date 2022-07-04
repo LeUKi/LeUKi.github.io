@@ -17,15 +17,15 @@ isTop: false
 
 天堑提供的源代码是 3.0.8 的，之前安装的 arm-linux-guneabi-gcc 版本太新，所以不能编译旧的内核代码。下面出现的很多报错，都是编译工具太新导致的。
 
-![](https://lafish.fun/post-images/1636951947003.png)
+![](../post-images/1636951947003.png)
 
-![](https://lafish.fun/post-images/1636951961721.png)
+![](../post-images/1636951961721.png)
 
 天堑友好地提供了 4.4.6 的编译工具源码，可以编译 3.0.8 的内核，只需要以下几步就能使用。
 
 1. 代码准备：将 `天嵌官方资料/Linux平台工具/4.4.6_TQ210_release_20120720.tar.bz2` 解压到 `/home/lafish/` 
 
-![](https://lafish.fun/post-images/1636951983455.png)
+![](../post-images/1636951983455.png)
 
 2. 添加环境变量：打开 `/home/lafish/.bashrc` 文件，最后加一行
 
@@ -117,13 +117,13 @@ obj-$(CONFIG_TQ210SERIAL)		+= tq210serial/
 
 这样就能在配置界面的 `Device Driver` 最后一项看到新选项了，全部勾选就能把驱动编译进内核。
 
-![](https://lafish.fun/post-images/1636952013516.png)
+![](../post-images/1636952013516.png)
 
-![](https://lafish.fun/post-images/1636952017462.png)
+![](../post-images/1636952017462.png)
 
 额外还需要调整内核的启动参数
 
-![](https://lafish.fun/post-images/1636952126790.png)
+![](../post-images/1636952126790.png)
 
 # 最后
 

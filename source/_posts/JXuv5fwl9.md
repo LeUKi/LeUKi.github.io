@@ -12,7 +12,7 @@ Gridea有一点不好，就是不能同时推送到两个仓库。下面这个�
 1.登录coding账户
 2.进入Coding博客仓库-持续集成-构建计划-新建-简易模板
 （[https://你的用户名.coding.net/p/博客仓库名/ci/job/create/simple](https://你的用户名.coding.net/p/博客仓库名/ci/job/create/simple)）
-![](https://lafish.fun/post-images/20200621104214.png)
+![](../post-images/20200621104214.png)
 3.随意起名，选择仓库，创建构建计划
 4.进入创建的计划-流程配置-文本编辑器
 5.删除全部代码，粘贴下面的代码后保存
@@ -41,5 +41,5 @@ pipeline {
 }
 ```
 6.设置触发规则：
-![](https://lafish.fun/post-images/20200621105155.png)
+![](../post-images/20200621105155.png)
 7.在Gridea中同步一下，看看github上的仓库有没有同步吧！

@@ -40,7 +40,7 @@ Heroku 是一个云计算平台，注册用户每个月有550小时的免费计�
 
 Heroku 项目的 Deploy 选项中绑定 Github 仓库，如此当你提交代码后，Heroku 会自动拉取新代码并启用新的代码程序。
 
-![Deploy Github](https://lafish.fun/post-images/1634999417834.png)
+![Deploy Github](../post-images/1634999417834.png)
 
 ## 配置环境变量
 
@@ -48,13 +48,13 @@ Heroku 项目的 Deploy 选项中绑定 Github 仓库，如此当你提交代码
 
 在项目使用私有代码地方填充 ```process.env.XXX```，并在 Heroku 项目的 Setting - Config Vars 选项中填入对应的值，在运行程序前这些环境变量就会被替换。
 
-![Config Vars](https://lafish.fun/post-images/1634999401675.png)
+![Config Vars](../post-images/1634999401675.png)
 
 ## 运行！
 
 可以看到接口服务跑起来了，也能成功对接数据库。当半小时没有访问流量，服务关闭，当我们再次访问接口时，Heroku 重启了程序，服务启动需要约3秒的时间，还是很理想的。~~（毕竟白嫖的嘛）~~
 
-![Heroku Project Log](https://lafish.fun/post-images/1634999351965.png)
+![Heroku Project Log](../post-images/1634999351965.png)
 
 # 最后
 

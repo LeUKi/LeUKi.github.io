@@ -27,9 +27,9 @@ isTop: false
 https://github.com/LeUKi/Timer    
 ```
 
-![](https://lafish.fun/post-images/1606962654773.png)
+![](../post-images/1606962654773.png)
 
-![](https://lafish.fun/post-images/1606962784505.png)
+![](../post-images/1606962784505.png)
 
 [演示地址]: http://timer.lafish.fun/
 
@@ -53,11 +53,11 @@ npm install
 
 删除electron-quick-start文件夹内的```index.html```和```renderer. js```，将之前用Vue写好并build出的页面放进去。
 
-![](https://lafish.fun/post-images/1606962813247.png)
+![](../post-images/1606962813247.png)
 
 再次输入```electron .```测试，如果能弹出倒计时应用窗口，则代表替换成功了。
 
-![](https://lafish.fun/post-images/1606962823286.png)
+![](../post-images/1606962823286.png)
 
 # 打包应用
 
@@ -73,14 +73,14 @@ cnpm install electron-packager -g
 
 在electron-quick-start-darwin-x64和electron-quick-start-win32-x64文件夹中，我们可以找到对应的程序文件，运行效果和使用```electron .```测试无异。!
 
-![](https://lafish.fun/post-images/1606962861169.png)
+![](../post-images/1606962861169.png)
 
 # 写在最后
 
 很可笑的是，就这么一个简单的网页应用，打包完后两个平台的程序体积都能达到百来兆，而原本的网页文件仅有5.7M。~~把网页和浏览器安装包放在一起都没这么大 XD~~
 
-![](https://lafish.fun/post-images/1606962871778.png)
+![](../post-images/1606962871778.png)
 
-![](https://lafish.fun/post-images/1606962879534.png)
+![](../post-images/1606962879534.png)
 
 总的来说，对于初入前端的老菜鸟，Electron有很大的吸引力，前端可以不用写

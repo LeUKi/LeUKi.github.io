@@ -14,8 +14,8 @@ Babel 是一个 JavaScript 编译器，是当下前端工程化开发必不可�
 
 使用 Vue / React 等框架的脚手架生成项目，无一例外集成了 Babel，你可以在项目目录中轻松找到 Babel 的存在。
 
-![react项目中的Babal配置](https://lafish.fun/post-images/1633615964818.png)
-![vue项目中的Babal配置](https://lafish.fun/post-images/1633615924098.png)
+![react项目中的Babal配置](../post-images/1633615964818.png)
+![vue项目中的Babal配置](../post-images/1633615924098.png)
 
 通常情况下，脚手架作者已经将 Babel 配置妥当，无需二次调试。
 
@@ -90,7 +90,7 @@ npx babel src --out-dir dist
 
 现在让我们在 `src/` 中创建一个 `app.js`，输入一些 ES6+ 代码，保存文件，输入脚本指令，Babel 就会自动编译并保存在 `dist/` 了。
 
-![第一次手动编译](https://lafish.fun/post-images/1633616072839.png)
+![第一次手动编译](../post-images/1633616072839.png)
 
 显示成功了，`dist/app.js` 也填充了编译后的代码，但我们发现并没有什么变化。这是因为我们在 `package.json` 中配置的转换目标是 chrome v60，它已经支持了 class 和箭头函数语法。想看点不一样的，让我们把配置拉低”亿“点。
 
@@ -133,7 +133,7 @@ nodemon --watch src --exec npx babel src --out-dir dist
 
 将 nodemon 跑起来，现在当我们在 `src/` 中保存文件时，nodemon 就会触发指令，Babel 也会自动转换代码到 `dist/` 中了。
 
-![保存自动编译](https://lafish.fun/post-images/1633616089808.gif)
+![保存自动编译](../post-images/1633616089808.gif)
 
 有内味了，就像是 Vue 和 React 一样。看编译后的代码可以发现，Babel 将箭头函数直接转换成了普通函数，class 语法则是引入了 Babel 的 `_createClass` 辅助函数，以ES5语法实现了 ES6 的功能。
 
