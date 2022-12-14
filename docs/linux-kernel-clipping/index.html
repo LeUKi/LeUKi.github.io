@@ -1,0 +1,861 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.png">
+  <link rel="icon" href="/images/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="lafish">
+  <meta name="keywords" content="Lafish的部落格">
+  
+    <meta name="description" content="不知道最后能不能成功，但且先记录着，资料太多了，看得好迷茫。  安装虚拟机过程略，系统是Ubuntu 20.04.3 LTS。 环境准备打开终端，下载 linux 源码，这里下载的版本是5.4.0 1sudo apt-get install linux-source-5.4.0  下载完后打开下载目录，解压到 &#x2F;home&#x2F;USERNAME 。 值得一提的是这里的 linux-source-5.4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux内核裁剪">
+<meta property="og:url" content="http://lafish.fun/linux-kernel-clipping/index.html">
+<meta property="og:site_name" content="辣鱼的网络小窝">
+<meta property="og:description" content="不知道最后能不能成功，但且先记录着，资料太多了，看得好迷茫。  安装虚拟机过程略，系统是Ubuntu 20.04.3 LTS。 环境准备打开终端，下载 linux 源码，这里下载的版本是5.4.0 1sudo apt-get install linux-source-5.4.0  下载完后打开下载目录，解压到 &#x2F;home&#x2F;USERNAME 。 值得一提的是这里的 linux-source-5.4">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://lafish.fun/post-images/1634909750962.png">
+<meta property="og:image" content="http://lafish.fun/post-images/1634909862236.png">
+<meta property="og:image" content="http://lafish.fun/post-images/1634909823235.png">
+<meta property="og:image" content="http://lafish.fun/post-images/1634909883141.png">
+<meta property="article:published_time" content="2021-10-22T13:34:00.000Z">
+<meta property="article:modified_time" content="2022-12-14T10:21:51.600Z">
+<meta property="article:author" content="lafish">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://lafish.fun/post-images/1634909750962.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Linux内核裁剪 - 辣鱼的网络小窝</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lafish.fun","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":10,"cursorChar":"丨","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":null,"gtag":"G-6KC22WXLTJ","tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1278649515,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 40vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>辣鱼的网络小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux内核裁剪"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-10-22 21:34" pubdate>
+          2021年10月22日
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux内核裁剪</h1>
+            
+            <div class="markdown-body">
+              
+              <blockquote>
+<p>不知道最后能不能成功，但且先记录着，资料太多了，看得好迷茫。</p>
+</blockquote>
+<p>安装虚拟机过程略，系统是<code>Ubuntu 20.04.3 LTS</code>。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>打开终端，下载 linux 源码，这里下载的版本是<code>5.4.0</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install linux-source-5.4.0<br></code></pre></td></tr></table></figure>
+
+<p>下载完后打开下载目录，解压到 <code>/home/USERNAME</code> 。</p>
+<p>值得一提的是这里的 <code>linux-source-5.4.0.tar.bz2</code> 是一个软链接，我们实际上是安装了一个软件包，这个软件包包含了源代码压缩包，并在 <code>/usr/src</code> 下创建了一个软链接，指向的是其同目录同名文件夹下的同名文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /usr/src <span class="hljs-comment">#默认下载路径</span><br>tar -jxv -f linux-source-5.4.0.tar.bz2 -C /home/lafish <span class="hljs-comment">#解压</span><br></code></pre></td></tr></table></figure>
+
+<p>进入解压后的源码目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /home/lafish/linux-source-5.4.0<br></code></pre></td></tr></table></figure>
+
+<p>安装交叉编译器，这里的 gcc 版本是 <code>9.3.0</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install gcc-arm-linux-gnueabi<br>arm-linux-gnueabi-gcc -v <span class="hljs-comment">#查看版本</span><br></code></pre></td></tr></table></figure>
+
+<p>编辑源码根目录下的 <code>makefile</code> 文件，检索 <code>ARCH</code> 字段，等于号后面填的是目标平台，可以在 <code>arch/</code> 下找到对应的文件夹名。这里我们不填 <code>arm64</code> 而是 <code>arm</code>，前者会使后面的编译部分出现大量报错，原因未知。同时，在下一行增加 <code>CROSS_COMPILE</code>  填的是交叉编译的工具。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment">#原</span><br>ARCH                    ?=<br><br><span class="hljs-comment">#改</span><br>ARCH                    ?= arm<br>CROSS_COMPILE   ?= arm-linux-gnueabi- <span class="hljs-comment">#这一条本来没有，需要自己加上</span><br></code></pre></td></tr></table></figure>
+
+<p>此时输入 <code>make menuconfig</code> 启动配置内核界面会报错，根据提示安装缺少的软件包就行了，我就缺了4个包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt-get install ncurses-dev<br>apt-get install flex<br>apt-get install bison<br>apt-get install libssl-dev<br></code></pre></td></tr></table></figure>
+
+<h1 id="内核裁剪"><a href="#内核裁剪" class="headerlink" title="内核裁剪"></a>内核裁剪</h1><p>学艺不精，内核配置先略过，下篇再讲。这里从默认配置出发，先走一遍流程。</p>
+<h1 id="生成镜像（误）"><a href="#生成镜像（误）" class="headerlink" title="生成镜像（误）"></a>生成镜像（误）</h1><p>配置完内核选项后，输入下面的命令生成镜像文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make zImage<br></code></pre></td></tr></table></figure>
+
+<p>出现报错：没有规则可制作目标“debian&#x2F;canonical-certs.pem”</p>
+<p>这是应该是证书出了问题，编辑源码根目录下的 <code>.config</code> 文件，检索 <code>.pem</code>，将两行代码中的值删除即可。</p>
+<p><img src="/../post-images/1634909750962.png" srcset="/img/loading.gif" lazyload alt=".config检索.pem字段"></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment">#原</span><br><span class="hljs-attr">CONFIG_MODULE_SIG_KEY</span>=<span class="hljs-string">&quot;certs/signing_key.pem&quot;</span><br><span class="hljs-attr">CONFIG_SYSTEM_TRUSTED_KEYRING</span>=y<br><span class="hljs-attr">CONFIG_SYSTEM_TRUSTED_KEYS</span>=<span class="hljs-string">&quot;debian/canonical-certs.pem&quot;</span><br><br><span class="hljs-comment">#改</span><br><span class="hljs-attr">CONFIG_MODULE_SIG_KEY</span>=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-attr">CONFIG_SYSTEM_TRUSTED_KEYRING</span>=y<br><span class="hljs-attr">CONFIG_SYSTEM_TRUSTED_KEYS</span>=<span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>再次生成，再报错：can’t open file “block&#x2F;Kconfig”</p>
+<p>看来是文件出了点问题，之前好奇动了很多东西，网上的笔记也看得很杂，改动也挺多的，下面重新解压代码重新搞。</p>
+<h1 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h1><p>有了之前的经历，例如源码下载、环境搭建等步骤就不用重新弄了。</p>
+<p>重新将代码解压到合适位置，重新修改 <code>makefile</code> 与 <code>.config</code> 文件。再次运行生成指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make zImage<br></code></pre></td></tr></table></figure>
+
+<p>这次一切正常，但编译的速度有点慢了，可以加上 <code>-j</code> 参数开启多核编译。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make zImage -j12 <span class="hljs-comment">#后面的数字代表CPU核心数</span><br></code></pre></td></tr></table></figure>
+
+<p>看这喂饱的CPU，针不戳。大概7分钟就生成好了，如果不加参数可能是12倍之多了。</p>
+<p><img src="/../post-images/1634909862236.png" srcset="/img/loading.gif" lazyload alt="喂饱的CPU"></p>
+<p><img src="/../post-images/1634909823235.png" srcset="/img/loading.gif" lazyload alt="镜像生成完毕"></p>
+<p>生成镜像的路径在 <code>arch/arm/boot/</code>，路径与文件都与师兄师姐们的笔记不一样，应该是代码版本不同导致的，<code>zimage</code> 是 <code>image</code> 压缩后的文件，即便按照默认配置生成，这也是小到出乎我意料。</p>
+<p><img src="/../post-images/1634909883141.png" srcset="/img/loading.gif" lazyload alt="生成的文件"></p>
+<h1 id="总结与问题"><a href="#总结与问题" class="headerlink" title="总结与问题"></a>总结与问题</h1><p>从<a target="_blank" rel="noopener" href="https://www.kernel.org/doc/html/">linux官方文档库</a>中可以看到，最新linux源代码版本是5.15，apt获取的源码而是19年的版本，如果需要从新的源码编译，就得手动下载。之前一条条 <code>apt-get install</code> 安装的工具也一样，很可能是过时的，如果需要安装新的软件，就需要自行去官网下载已编译或甚至编译的软件源码自行安装。这个过程是可以预见的，希望后面的记录会有体验到。</p>
+<p>试过几次裁剪都以失败告终，例如中间提到的文件问题。但默认配置生成的镜像大小至少让我明白了，现阶段裁剪更多的是无用的驱动程序，在编译过程中出现了很多其他品牌的驱动都是无用的。</p>
+<p>最后，提出一些问题，希望后面的篇章能做出解答：</p>
+<ul>
+<li>Uboot相关制作的切入点</li>
+<li>根目录系统制作与Busybox的关系</li>
+<li>arch&#x3D;arm64不可用的原因</li>
+<li>make menuconfig的大致流程</li>
+<li>启动裁剪系统的方法</li>
+</ul>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">#嵌入式</a>
+      
+        <a href="/tags/linux/">#linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux内核裁剪</div>
+      <div>http://lafish.fun/linux-kernel-clipping/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>lafish</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年10月22日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/freedom-service/" title="利用 MongoDB Atlas 与 Heroku 架设 Free 的后台服务">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">利用 MongoDB Atlas 与 Heroku 架设 Free 的后台服务</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/what-is-babel/" title="初识 Babel">
+                        <span class="hidden-mobile">初识 Babel</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"71fffbb2e623d5ca9d9a","clientSecret":"12607742acf5d4d5c38e377f8f7fd4fb91f69931","repo":"LFcomment","owner":"LeUKi","admin":["LeUKi"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '52231a89e65805e05c1398d8f389c939'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div style="font-size: 0.85rem;"> © 2019-2022 <strong>Lafish</strong>,<br> Powered by Hexo x Fluid. <br> <a href="https://www.foreverblog.cn/" target="_blank" one-link-mark="yes"> <img src="https://img.foreverblog.cn/logo_en_default.png" srcset="/img/loading.gif" lazyload alt="" style="width:auto;height:16px;"> </a> <a href="https://icp.gov.moe" class="foota" target="_blank" one-link-mark="yes">萌ICP备 </a><a href="https://icp.gov.moe/?keyword=2020001024" target="_blank" one-link-mark="yes"> 2020001024号</a> <style>.VCC_before{visibility: hidden;}.gt-container .gt-comment-content{background-color:#bdbdbd21!important}</style> <!-- <span class="VCC VCC_before"> <a href="https://github.com/LeUKi/viewer-catch" class="foota" target="_blank" one-link-mark="yes">【viewer-catch】</a> 第<span class="VCC_pv_sum"> ? </span>次访问 </span> --> </div>  
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147173号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44011302003816"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备 44011302003816号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278649515" style="display: none"></span>
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script defer>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-6KC22WXLTJ', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-6KC22WXLTJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('//s4.cnzz.com/z_stat.php?id=1278649515&show=pic');
+      }
+    </script>
+  
+
+  
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script defer src="https://viewer-catch.herokuapp.com/client.js"></script><!-- hexo injector body_end end --></body>
+</html>

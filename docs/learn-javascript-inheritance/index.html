@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.png">
+  <link rel="icon" href="/images/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="lafish">
+  <meta name="keywords" content="Lafish的部落格">
+  
+    <meta name="description" content="更好的代码复用、扩展，你需要类的继承  ES5总的来说，ES5 类的继承需要结合对象冒充继承和原型链继承两个方案，下面一一举例。 想搞继承，首先得有个父类，这里有这么一个构造函数： 1234567function Person(name, age) &amp;#123;    this.name &#x3D; name; &#x2F;&#x2F;实例属性    this.age &#x3D; age; &#x2F;&#x2F;实例属性    this.run &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 类的继承">
+<meta property="og:url" content="http://lafish.fun/learn-javascript-inheritance/index.html">
+<meta property="og:site_name" content="辣鱼的网络小窝">
+<meta property="og:description" content="更好的代码复用、扩展，你需要类的继承  ES5总的来说，ES5 类的继承需要结合对象冒充继承和原型链继承两个方案，下面一一举例。 想搞继承，首先得有个父类，这里有这么一个构造函数： 1234567function Person(name, age) &amp;#123;    this.name &#x3D; name; &#x2F;&#x2F;实例属性    this.age &#x3D; age; &#x2F;&#x2F;实例属性    this.run &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-02T13:26:18.000Z">
+<meta property="article:modified_time" content="2022-12-14T10:21:51.600Z">
+<meta property="article:author" content="lafish">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>JavaScript 类的继承 - 辣鱼的网络小窝</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lafish.fun","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":10,"cursorChar":"丨","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":null,"gtag":"G-6KC22WXLTJ","tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1278649515,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 40vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>辣鱼的网络小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JavaScript 类的继承"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-11-02 21:26" pubdate>
+          2021年11月2日
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="前端"
+        id="heading-9abfe4a03928eb88a75a5cd95822dfef" role="tab" data-toggle="collapse" href="#collapse-9abfe4a03928eb88a75a5cd95822dfef"
+        aria-expanded="true"
+      >
+        前端
+        <span class="list-group-count">(10)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-9abfe4a03928eb88a75a5cd95822dfef"
+           role="tabpanel" aria-labelledby="heading-9abfe4a03928eb88a75a5cd95822dfef">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/Fd2bot3Xf/" title="一次在jQuery中input绑定keyup等事件的错误记录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">一次在jQuery中input绑定keyup等事件的错误记录</span>
+        </a>
+      
+    
+      
+      
+        <a href="/wechat-miniprogram-development-trouble/" title="记微信小程序开发踩过的坑"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">记微信小程序开发踩过的坑</span>
+        </a>
+      
+    
+      
+      
+        <a href="/what-is-babel/" title="初识 Babel"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">初识 Babel</span>
+        </a>
+      
+    
+      
+      
+        <a href="/freedom-service/" title="利用 MongoDB Atlas 与 Heroku 架设 Free 的后台服务"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">利用 MongoDB Atlas 与 Heroku 架设 Free 的后台服务</span>
+        </a>
+      
+    
+      
+      
+        <a href="/learn-javascript-class/" title="JavaScript 类"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">JavaScript 类</span>
+        </a>
+      
+    
+      
+      
+        <a href="/learn-javascript-inheritance/" title="JavaScript 类的继承"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">JavaScript 类的继承</span>
+        </a>
+      
+    
+      
+      
+        <a href="/viewer-catch/" title="viewer-catch 基于Koa与MongoDB的站点统计平台"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">viewer-catch 基于Koa与MongoDB的站点统计平台</span>
+        </a>
+      
+    
+      
+      
+        <a href="/v-bind-and-v-model/" title="关于v-bind与v-model的父子传参问题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">关于v-bind与v-model的父子传参问题</span>
+        </a>
+      
+    
+      
+      
+        <a href="/cloudflare-workers-url/" title="使用Cloudflare Workers实现带参数的url重定向"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">使用Cloudflare Workers实现带参数的url重定向</span>
+        </a>
+      
+    
+      
+      
+        <a href="/codes-generator-js/" title="写一个简单的工具库"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">写一个简单的工具库</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaScript 类的继承</h1>
+            
+            <div class="markdown-body">
+              
+              <blockquote>
+<p>更好的代码复用、扩展，你需要类的继承</p>
+</blockquote>
+<h1 id="ES5"><a href="#ES5" class="headerlink" title="ES5"></a>ES5</h1><p>总的来说，ES5 类的继承需要结合对象冒充继承和原型链继承两个方案，下面一一举例。</p>
+<p>想搞继承，首先得有个父类，这里有这么一个构造函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params">name, age</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name; <span class="hljs-comment">//实例属性</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age; <span class="hljs-comment">//实例属性</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">run</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//实例方法</span><br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> + <span class="hljs-string">&#x27; is running&#x27;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在类描述外部添加了原型方法和静态方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">swim</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//类上添加原型方法</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.name&#125;</span> is swiming`</span>);<br>&#125;<br><br><span class="hljs-title class_">Person</span>.<span class="hljs-property">work</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//类上添加静态方法</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.name&#125;</span> is working`</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="对象冒充继承"><a href="#对象冒充继承" class="headerlink" title="对象冒充继承"></a>对象冒充继承</h2><p>这里通过 call 方法继承父类，第一个参数传入子类。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Student</span>(<span class="hljs-params">name, age, grade</span>) &#123;<br>    <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, name, age); <span class="hljs-comment">//对象冒充继承</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">grade</span> = grade; <span class="hljs-comment">//实例属性</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实例化一个对象，发现能继承父类的实例属性和方法，但不能继承原型属性和方法。静态方法也不能被继承。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> student1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>(<span class="hljs-string">&#x27;张三&#x27;</span>, <span class="hljs-number">18</span>, <span class="hljs-string">&#x27;一年级&#x27;</span>); <span class="hljs-comment">//实例化对象</span><br><br><span class="hljs-comment">//继承父类的实例方法</span><br>student1.<span class="hljs-title function_">run</span>(); <span class="hljs-comment">//张三 is running</span><br><span class="hljs-comment">//不可继承父类的原型方法</span><br><span class="hljs-comment">//student1.swim(); //TypeError: student1.swim is not a function</span><br><span class="hljs-comment">//不可继承父类的静态方法</span><br><span class="hljs-comment">//Student.work(); //TypeError: Student.work is not a function</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h2><p>首先建一个空的子类，将父类的实例赋给子类的 prototype 属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Teacher</span>(<span class="hljs-params">name, age, subject</span>) &#123;&#125;<br><br><span class="hljs-title class_">Teacher</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(); <span class="hljs-comment">//原型链继承</span><br></code></pre></td></tr></table></figure>
+
+<p>实例化一个对象，发现可以使用父类的实例方法和原型方法，但 new 实例化传参不可用，需要手动修改实例属性。同时静态方法也不能被继承。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> teacher1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Teacher</span>(<span class="hljs-string">&#x27;李四&#x27;</span>, <span class="hljs-number">30</span>, <span class="hljs-string">&#x27;语文&#x27;</span>);<span class="hljs-comment">//实例化对象</span><br><br><span class="hljs-comment">//实例属性存在但是没有初始化</span><br>teacher1.<span class="hljs-title function_">run</span>(); <span class="hljs-comment">//undefined is running</span><br>teacher1.<span class="hljs-title function_">swim</span>(); <span class="hljs-comment">//undefined is swiming</span><br><span class="hljs-comment">//修改实例属性</span><br>teacher1.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;王五&quot;</span>; <br>teacher1.<span class="hljs-title function_">run</span>(); <span class="hljs-comment">//王五 is running</span><br>teacher1.<span class="hljs-title function_">swim</span>(); <span class="hljs-comment">//王五 is swiming</span><br><br><span class="hljs-comment">//不可继承父类的静态方法</span><br><span class="hljs-comment">//Teacher.work(); //TypeError: Teacher.work is not a function</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="对象冒充-原型链继承"><a href="#对象冒充-原型链继承" class="headerlink" title="对象冒充+原型链继承"></a>对象冒充+原型链继承</h2><p>新建一个子类，通过结合两者实现继承。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Programmer</span>(<span class="hljs-params">name, age, language</span>) &#123;<br>    <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, name, age); <span class="hljs-comment">//对象冒充继承</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">language</span> = language; <span class="hljs-comment">//实例属性</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">introduce</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//实例方法</span><br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.name&#125;</span> is a <span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.language&#125;</span> developer`</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-title class_">Programmer</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(); <span class="hljs-comment">//原型链继承</span><br></code></pre></td></tr></table></figure>
+
+<p>实例化一个对象，发现可以使用父类的实例方法和原型方法，子类也能向父类传参。但同时静态方法仍然不能被继承。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> programmer1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Programmer</span>(<span class="hljs-string">&#x27;赵六&#x27;</span>, <span class="hljs-number">35</span>, <span class="hljs-string">&#x27;JavaScript&#x27;</span>);<span class="hljs-comment">//实例化对象</span><br><br><span class="hljs-comment">//继承父类的实例方法</span><br>programmer1.<span class="hljs-title function_">run</span>(); <span class="hljs-comment">//赵六 is running</span><br><span class="hljs-comment">//子类方法使用父类的实例属性</span><br>programmer1.<span class="hljs-title function_">introduce</span>(); <span class="hljs-comment">//赵六 is a JavaScript developer</span><br><span class="hljs-comment">//继承父类的原型方法</span><br>programmer1.<span class="hljs-title function_">swim</span>(); <span class="hljs-comment">//赵六 is swiming</span><br><br><span class="hljs-comment">//不可继承父类的静态方法</span><br><span class="hljs-title class_">Programmer</span>.<span class="hljs-title function_">work</span>(); <span class="hljs-comment">//TypeError: Programmer.work is not a function</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><p>ES6 为类的继承提供了好用的语法糖。</p>
+<p>在 class 内，使用 constructor 创建实例属性，用函数创建实例方法，还可以用 static 表示其是静态属性或方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, age</span>) &#123; <span class="hljs-comment">//实例属性创建</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age;<br>    &#125;<br>    <span class="hljs-title function_">speak</span>(<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//实例方法</span><br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> + <span class="hljs-string">&#x27; makes a noise.&#x27;</span>);<br>    &#125;<br>    <span class="hljs-keyword">static</span> words = <span class="hljs-string">&#x27;All animals eat food.&#x27;</span>; <span class="hljs-comment">//静态属性</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时在类描述外部添加了原型方法和静态方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Animal</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">run</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//类上添加原型方法</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> + <span class="hljs-string">&#x27; is running.&#x27;</span>);<br>&#125;<br><br><span class="hljs-title class_">Animal</span>.<span class="hljs-property">eat</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">//类上添加静态方法</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">words</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>建一个子类，通过 extends 关键词继承父类，在 constructor 中的 super 方法类似 ES5 的 call，传入给父类的实例属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Animal</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, age, color</span>) &#123;<br>        <span class="hljs-variable language_">super</span>(name, age);<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">color</span> = color;<br>    &#125;<br>    <span class="hljs-title function_">colorIs</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> + <span class="hljs-string">&#x27; is &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">color</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实例化一个对象，发现可以使用父类的实例方法和原型方法，子类也能向父类传参。重点是，静态方法在 ES6 上是能被继承的！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> dog1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-string">&#x27;Teddy&#x27;</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;white&#x27;</span>); <span class="hljs-comment">//实例化</span><br><br><span class="hljs-comment">//继承父类的实例方法</span><br>dog1.<span class="hljs-title function_">speak</span>(); <span class="hljs-comment">//Teddy makes a noise.</span><br><span class="hljs-comment">//子类方法使用父类的实例属性</span><br>dog1.<span class="hljs-title function_">colorIs</span>(); <span class="hljs-comment">//Teddy is white</span><br><span class="hljs-comment">//继承父类的原型方法</span><br>dog1.<span class="hljs-title function_">run</span>(); <span class="hljs-comment">//Teddy is running.</span><br><br><span class="hljs-comment">//继承父类的静态方法</span><br><span class="hljs-title class_">Dog</span>.<span class="hljs-title function_">eat</span>(); <span class="hljs-comment">//All animals eat food.</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>ES6 与 ES5 在类继承上对于父类的静态方法处理有很大不同。</p>
+<p>是时候深入底层，走进原型链，探探JavaScript底下的世界。</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JavaScript/">#JavaScript</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JavaScript 类的继承</div>
+      <div>http://lafish.fun/learn-javascript-inheritance/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>lafish</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年11月2日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/viewer-catch/" title="viewer-catch 基于Koa与MongoDB的站点统计平台">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">viewer-catch 基于Koa与MongoDB的站点统计平台</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/learn-javascript-class/" title="JavaScript 类">
+                        <span class="hidden-mobile">JavaScript 类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"71fffbb2e623d5ca9d9a","clientSecret":"12607742acf5d4d5c38e377f8f7fd4fb91f69931","repo":"LFcomment","owner":"LeUKi","admin":["LeUKi"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'cc3fd2bf280f49a4eed49ecdeb40ba1e'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div style="font-size: 0.85rem;"> © 2019-2022 <strong>Lafish</strong>,<br> Powered by Hexo x Fluid. <br> <a href="https://www.foreverblog.cn/" target="_blank" one-link-mark="yes"> <img src="https://img.foreverblog.cn/logo_en_default.png" srcset="/img/loading.gif" lazyload alt="" style="width:auto;height:16px;"> </a> <a href="https://icp.gov.moe" class="foota" target="_blank" one-link-mark="yes">萌ICP备 </a><a href="https://icp.gov.moe/?keyword=2020001024" target="_blank" one-link-mark="yes"> 2020001024号</a> <style>.VCC_before{visibility: hidden;}.gt-container .gt-comment-content{background-color:#bdbdbd21!important}</style> <!-- <span class="VCC VCC_before"> <a href="https://github.com/LeUKi/viewer-catch" class="foota" target="_blank" one-link-mark="yes">【viewer-catch】</a> 第<span class="VCC_pv_sum"> ? </span>次访问 </span> --> </div>  
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147173号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44011302003816"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备 44011302003816号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278649515" style="display: none"></span>
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script defer>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-6KC22WXLTJ', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-6KC22WXLTJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('//s4.cnzz.com/z_stat.php?id=1278649515&show=pic');
+      }
+    </script>
+  
+
+  
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script defer src="https://viewer-catch.herokuapp.com/client.js"></script><!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,893 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.png">
+  <link rel="icon" href="/images/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="lafish">
+  <meta name="keywords" content="Lafish的部落格">
+  
+    <meta name="description" content="黑苹果，意外的简单。  前言800闲鱼淘来的笔记本电脑，性能果然捉急，也被我装上黑苹果，录个屏直播CPU就跑满了，平时还跑个虚拟机，做项目也经常死机。五代的低压i5了，还在承受它这个年纪不该承受的我的摧残。所以为了解放它，同时也为了放在团队实验室（为了正义！）被我敲代码，特意献祭1K5红包钱（真的一滴都没有了）组装台能跑视频剪辑虚拟机等大型应用的黑苹果主机。定位是小钢炮（是不是像做梦），毕竟可能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录第一次黑苹果主机的组装经历">
+<meta property="og:url" content="http://lafish.fun/HackintoshDiary/index.html">
+<meta property="og:site_name" content="辣鱼的网络小窝">
+<meta property="og:description" content="黑苹果，意外的简单。  前言800闲鱼淘来的笔记本电脑，性能果然捉急，也被我装上黑苹果，录个屏直播CPU就跑满了，平时还跑个虚拟机，做项目也经常死机。五代的低压i5了，还在承受它这个年纪不该承受的我的摧残。所以为了解放它，同时也为了放在团队实验室（为了正义！）被我敲代码，特意献祭1K5红包钱（真的一滴都没有了）组装台能跑视频剪辑虚拟机等大型应用的黑苹果主机。定位是小钢炮（是不是像做梦），毕竟可能">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-22T01:59:14.000Z">
+<meta property="article:modified_time" content="2022-12-14T10:21:51.600Z">
+<meta property="article:author" content="lafish">
+<meta property="article:tag" content="Lafish的部落格">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>记录第一次黑苹果主机的组装经历 - 辣鱼的网络小窝</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lafish.fun","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":10,"cursorChar":"丨","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"#"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":null,"gtag":"G-6KC22WXLTJ","tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":1278649515,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 40vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>辣鱼的网络小窝</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="记录第一次黑苹果主机的组装经历"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-04-22 09:59" pubdate>
+          2020年4月22日
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="黑苹果"
+        id="heading-fa5851eb3307e05c74a9ee698ace396e" role="tab" data-toggle="collapse" href="#collapse-fa5851eb3307e05c74a9ee698ace396e"
+        aria-expanded="true"
+      >
+        黑苹果
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-fa5851eb3307e05c74a9ee698ace396e"
+           role="tabpanel" aria-labelledby="heading-fa5851eb3307e05c74a9ee698ace396e">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/mu3Y7y8Gt/" title="DW1820A黑苹果网卡简单折腾记录"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">DW1820A黑苹果网卡简单折腾记录</span>
+        </a>
+      
+    
+      
+      
+        <a href="/HackintoshDiary/" title="记录第一次黑苹果主机的组装经历"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">记录第一次黑苹果主机的组装经历</span>
+        </a>
+      
+    
+      
+      
+        <a href="/XopWfaM5l/" title="记一个坑：黑苹果主机换硬盘、迁移系统"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">记一个坑：黑苹果主机换硬盘、迁移系统</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">记录第一次黑苹果主机的组装经历</h1>
+            
+            <div class="markdown-body">
+              
+              <blockquote>
+<p>黑苹果，意外的简单。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>800闲鱼淘来的笔记本电脑，性能果然捉急，也被我装上黑苹果，录个屏直播CPU就跑满了，平时还跑个虚拟机，做项目也经常死机。五代的低压i5了，还在承受它这个年纪不该承受的我的摧残。<br>所以为了解放它，同时也为了放在团队实验室（为了正义！）被我敲代码，特意献祭1K5红包钱（真的一滴都没有了）组装台能跑视频剪辑虚拟机等大型应用的黑苹果主机。定位是小钢炮（是不是像做梦），毕竟可能需要经常搬运，实验室也不大，主机体积当然小一点比较好。<br>至于为什么是黑苹果…一入苹果深似海，在各设备的联动和iCloud中已经越陷越深无法自拔。</p>
+<h1 id="配置一览"><a href="#配置一览" class="headerlink" title="配置一览"></a>配置一览</h1><table>
+<tr><th>硬件</th><th>型号</th><th>钱</th><th>选择原因</th></tr>
+<tr><td>CPU</td><td>Intel E3 1230 v2</td><td>250</td><td>考虑到预算紧张，就选志强洋垃圾了，记得这U五年前要一千，一年前要500，到现在250就能到买到，在闲鱼蹲会应该还能便宜，但为了质保这个心理安慰从淘宝入手。</td></tr>
+<tr><td>主板</td><td>华南金牌B75</td><td>200<td>B75主板一二线基本是找不到新的了，毕竟是好多年前的板子，咬咬牙还是天猫上了华南的，毕竟人家还有保修不是？华南这板子好像没什么人试过黑苹果，感觉有得搞了。</td></td></tr>
+<tr><td>显卡</td><td>迪兰恒进RX460 4g</td><td>300</td><td>这U没有核显，意味着必须上显卡了，黑苹果免驱的卡在闲鱼水涨船高，但在淘宝更便宜还带保，最重要的是这卡21厘米差一点就放不进机箱了。</td></tr>
+<tr><td>内存</td><td>16g</td><td>300</td><td>三代内存在闲鱼已经算便宜了，8gx2塞满主板，直接花去两成预算。</td></tr>
+<tr><td>电源</td><td>航嘉400W</td><td>200</td><td>再缩不能缩电源，不敢找闲鱼了，老老实实上全新的，寻思着400w应该够用了。（可能品控有点问题，第一次到的货有很大电流声）</td></tr>
+<tr><td>机箱</td><td>乔思伯C2</td><td>100</td><td>机箱要小，所以在闲鱼找了家专门卖二手机箱的，看着挺小的，只不过风道可能需要调整下，不然很容易变闷罐。到手之后发现是个坑，限制显卡长度竟然如此之短，逼不得已换显卡（钱包-￥309）。</td></tr>
+<tr><td>网卡</td><td>BCM94360CD</td><td>200</td><td>各设备联动就靠它了，随着黑苹果越来越多人玩，网卡方面价格真越来越高。我看到的涨多了一倍不止，说不定现在屯网卡明年就发了呢？</td></tr>
+</table>
+
+<h1 id="开整系统"><a href="#开整系统" class="headerlink" title="开整系统"></a>开整系统</h1><p>这次装机使用的是【19E266】版本，也可以参考写稿时黑果小兵最新的【<a target="_blank" rel="noopener" href="https://blog.daliansky.net/macOS-Catalina-10.15.4-19E266-Release-version-with-Clover-5107-original-image-Double-EFI-Version-UEFI-and-MBR.html">10.15.4 19E287 双EFI分区版</a>】。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/LeUKi/Hackintosh-EFI-huanan_B75/blob/master/B75-Bios-setting.md">主板bios设置</a></li>
+<li>镜像用balenaEtcher刷进U盘</li>
+<li>在macos环境下用disktuil指令挂载U盘的EFI分区（Windows用第三方工具）</li>
+<li>替换U盘的EFI文件（驱动完善差不多了，需要最后自取）</li>
+<li>插到主板USB2.0接口，关闭应该关闭的BIOS选项，U盘启动</li>
+<li>如果正确替换了EFI就能进到安装界面了，剩下的就是常规流程</li>
+<li>安装完系统后，同样使用disktuil指令挂载安装盘的EFI分区，把U盘的EFI文件替换进去（这里可能涉及两次的分区挂卸载，在没有Clover configurator软件的时候只能这样手动输入）<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">disktuil list<br>sudo disktuil mount diskXsX<br>sudo disktuil unmount diskXsX<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>弄到这里整个安装过程就结束了，可能是选择了很多免驱硬件的缘故，比想象中的简单，年度TODO✔️✔️️。<br>【<a target="_blank" rel="noopener" href="https://github.com/LeUKi/Hackintosh-EFI-huanan_B75">我的EFI分享</a>】，希望能帮到你。如果你的显卡原生支援macOS，可在启动参数添加 <strong>-wegoff</strong> 以提升显卡性能。</p>
+<h1 id="更新20200601"><a href="#更新20200601" class="headerlink" title="更新20200601"></a>更新20200601</h1><p>这次黑苹果组装经历踩了不少坑，<br>首先是网卡，在黑果小兵爆出有不良商家把4331冒充360cd后，一查直接踩雷。前者是不支持手表解锁的，当初我还傻傻一个劲问卖家为啥不行，现在长见识了，如果需要上驱动的网卡绝对是假的。如果你是真的360cd，请把efi中的网卡驱动删除。<br>然后是CPU，不是说买到假的了，而是在当初挑选硬件的时候没有仔细考虑，这款洋垃圾没有核显，所以随航是不能使用的。<br>电源方面我换了三个，京东服务是真的好，第一二次是嘉航，第三次价钱上振华，发现都有电流声，最后搞清楚不是产品问题，是家里电路设计问题。<br>这次一波三折， 下次配电脑应该是毕业后的事了吧。</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%BB%91%E8%8B%B9%E6%9E%9C/" class="category-chain-item">黑苹果</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>记录第一次黑苹果主机的组装经历</div>
+      <div>http://lafish.fun/HackintoshDiary/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>lafish</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年4月22日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/github2coding/" title="把博客从github搬到coding">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">把博客从github搬到coding</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/mu3Y7y8Gt/" title="DW1820A黑苹果网卡简单折腾记录">
+                        <span class="hidden-mobile">DW1820A黑苹果网卡简单折腾记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.7.2/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"71fffbb2e623d5ca9d9a","clientSecret":"12607742acf5d4d5c38e377f8f7fd4fb91f69931","repo":"LFcomment","owner":"LeUKi","admin":["LeUKi"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '67cddacdab7cefcce81120f73438a740'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div style="font-size: 0.85rem;"> © 2019-2022 <strong>Lafish</strong>,<br> Powered by Hexo x Fluid. <br> <a href="https://www.foreverblog.cn/" target="_blank" one-link-mark="yes"> <img src="https://img.foreverblog.cn/logo_en_default.png" srcset="/img/loading.gif" lazyload alt="" style="width:auto;height:16px;"> </a> <a href="https://icp.gov.moe" class="foota" target="_blank" one-link-mark="yes">萌ICP备 </a><a href="https://icp.gov.moe/?keyword=2020001024" target="_blank" one-link-mark="yes"> 2020001024号</a> <style>.VCC_before{visibility: hidden;}.gt-container .gt-comment-content{background-color:#bdbdbd21!important}</style> <!-- <span class="VCC VCC_before"> <a href="https://github.com/LeUKi/viewer-catch" class="foota" target="_blank" one-link-mark="yes">【viewer-catch】</a> 第<span class="VCC_pv_sum"> ? </span>次访问 </span> --> </div>  
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2022147173号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44011302003816"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备 44011302003816号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+    <!-- cnzz Analytics Icon -->
+    <span id="cnzz_stat_icon_1278649515" style="display: none"></span>
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+
+  
+
+  
+    <!-- Google gtag.js -->
+    <script defer>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.googletagmanager.com/gtag/js?id=G-6KC22WXLTJ', function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-6KC22WXLTJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('//s4.cnzz.com/z_stat.php?id=1278649515&show=pic');
+      }
+    </script>
+  
+
+  
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script defer src="https://viewer-catch.herokuapp.com/client.js"></script><!-- hexo injector body_end end --></body>
+</html>
